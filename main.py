@@ -2,7 +2,8 @@ from tkinter import Tk, Frame, Label, Text, Scrollbar, \
     Button, PhotoImage, END, W, E
 import translators as ts
 from textblob import TextBlob as detect
-
+import pyttsx3
+from datetime import datetime, date, time
 
 def window():
     win_text = text1.get(1.0, END)
@@ -71,13 +72,34 @@ text2['yscroll'] = scroll2.set
 # text2.pack_propagate(False)
 lab2 = Label(text2, fg='blue', bg='gray97')
 # lab2.pack(side='right', anchor='s')
-lab2.place(x=tx - 35, y=ty - 35)
 
+lab2.place(x=tx - 35, y=ty - 35)
 
 bt1 = Button(root, text='Translate window', font='arial 12', fg='blue', command=window)
 bt1.grid(row=2, column=0, sticky=W + E, padx=5, pady = 5)
 bt2 = Button(root, text='Translate clipboard', font='arial 12', fg='blue', command=clipboard)
 bt2.grid(row=2, column=1, sticky=W + E, padx = 5, pady = 5)
+
+tts = pyttsx3.init()
+tts.setProperty('voice', 'ru')
+tts.setProperty('voice', 'en')
+tts.setProperty('rate', 120)
+tts.setProperty('volume', 0.8)
+
+voices = tts.getProperty('voices')
+for voice in voices:
+    if 'Irina' in voice.name:
+        tts.setProperty('voice', voice.id)
+
+
+def say_time(s):
+    tts.say(s)
+    tts.runAndWait
+
+
+time_checker = datetime.now()
+say_time(f'text1')
+
 
 root.mainloop()
 
